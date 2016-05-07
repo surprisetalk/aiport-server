@@ -1,0 +1,20 @@
+{
+  "name": "aiport-server",
+  "version": "0.0.1",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/surprisetalk/aiport-server.git"
+  },
+  "author": "taylor sarrafian",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/surprisetalk/aiport-server/issues"
+  },
+  "homepage": "https://github.com/surprisetalk/aiport-server#readme"
+}
