@@ -60,7 +60,7 @@ var pile = require('aiport-pile');
 app.get( "/pile/:pile", ( req, res, next ) => promiser( pile( req.params.pile ).fetch( req.query ) )( req, res, next ), sender );
 
 var package = require('aiport-package');
-app.get( "/packages/installed", promiser( package.installed() ), sender );
+app.get( "/packages/installed", promiser( Promise.resolve( package.installed() ) ), sender );
 app.get( "/packages/available", promiser( package.available() ), sender );
 app.post( "/package/install/:type/:name", ( req, res, next ) => promiser( package.install( req.params.type, req.params.name ) )( req, res, next ), sender );
 
