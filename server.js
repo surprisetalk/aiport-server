@@ -1,28 +1,37 @@
 
 var _ = require('underscore');
 var app = require('express')();
-var api = require('api.js');
+
+//----------------------------------------------------
 
 var PORT = 9097;
 
-var errorer = ( code, msg )
+//----------------------------------------------------
+
+var errorer = ( code, msg ) =>
     res.status( err.code ).send( err.msg );
 
 var errorerer = ( req, res ) => ( err ) => 
     errorer( err.code, err.msg );
 
-var promiser = ( promise ) => ( req, res, next ) => 
+var promiser = promise => ( req, res, next ) => 
     promise
 	.then( data => { res.data = data; next() } )
 	.catch( errorerer( req, res ) );
 
-var apier = ( req, res ) =>
-    _.isArray( req.params ) && app.params.length 
-	? _.has( api, req.params[0] ) 
-	    ? promiser( api[ req.params[0] ]( req.query, _.drop( req.params ) ) ) 
-	    : errorer( 404, "'" + req.params[0] + "' is not a valid api endpoint"  )
-	: errorer( 500, "problem parsing the request parameters" );
+var sender = ( req, res ) =>
+    res.send( res.data );
 
-app.all( "*", apier );
+//----------------------------------------------------
 
-app.listen( PORT, () => console.log( "aiport listening on port " + PORT ); );
+var pile = require('aiport-pile');
+app.get( "/pile/:pile_name", promiser( pile( req.params.id ).fetch( req.query ) ), sender );
+
+var package = require('aiport-package');
+app.get( "/packages/installed", promiser( package.installed() ), sender );
+app.get( "/packages/available", promiser( package.available() ), sender );
+app.post( "/package/install/:type/:name", promiser( package.install( req.params.type, req.params.name ) ), sender );
+
+//----------------------------------------------------
+
+app.listen( PORT, () => console.log( "aiport listening on port " + PORT ) );
