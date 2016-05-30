@@ -26,18 +26,20 @@ var sender = ( req, res ) =>
 //----------------------------------------------------
 
 var renderror = ( req, res ) => err =>
-    res.render( "panel/error.html", err );
+    res.render( "panel/error.jade", err );
 
-// TODO: wrap html in panel
-var panel = html => html;
 
-var paneler = ( req, res ) => ( err, html ) =>
+var package = require('../aiport-package/package.js');
+
+var paneler = ( req, res ) => ( err, body ) =>
     err 
 	? renderror( req, res )( { code: 500, msg: err } )
-	: res.status( 200 ).send( panel( html ) );
+	: res.render( "panel.jade", { body: body, annexes: package.installed().annex } );
     
 var renderer = ( req, res ) => template_file =>
     app.render( template_file, req.query, paneler( req, res ) );
+
+app.set('views', __dirname );
 
 app.engine('hbs',cons.handlebars);
 app.engine('handlebars',cons.handlebars);
@@ -46,9 +48,10 @@ app.engine('mustache',cons.mustache);
 app.engine('jade',cons.jade);
 app.engine('pug',cons.pug);
 
-var annex = require('aiport-annex');
+// TEST
+var annex = require('../aiport-annex/annex.js');
 var annexer = annex_name => ( req, res, next ) => annex( annex_name ).then( renderer( req, res ) ).catch( renderror( req, res ) );
-app.get( "/!/admin", annexer('home') );
+app.get( "/!/admin", annexer( null ) );
 app.get( "/!/admin/:annex", ( req, res, next ) => annexer( req.params.annex )( req, res, next ) );
 
 // var scaffold = require('aiport-scaffold');
@@ -56,10 +59,10 @@ app.get( "/!/admin/:annex", ( req, res, next ) => annexer( req.params.annex )( r
 
 //----------------------------------------------------
 
-var pile = require('aiport-pile');
+var pile = require('../aiport-pile/pile.js');
 app.get( "/pile/:pile", ( req, res, next ) => promiser( pile( req.params.pile ).fetch( req.query ) )( req, res, next ), sender );
 
-var package = require('aiport-package');
+var package = require('../aiport-package/package.js');
 app.get( "/package/installed", promiser( Promise.resolve( package.installed() ) ), sender );
 app.get( "/package/available", promiser( package.available() ), sender );
 app.post( "/package/install/:type/:name", ( req, res, next ) => promiser( package.install( req.params.type, req.params.name ) )( req, res, next ), sender );
