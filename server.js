@@ -48,8 +48,8 @@ app.engine('pug',cons.pug);
 
 var annex = require('aiport-annex');
 var annexer = annex_name => ( req, res, next ) => annex( annex_name ).then( renderer( req, res ) ).catch( renderror( req, res ) );
-app.get( "/#/admin", annexer('home') );
-app.get( "/#/admin/:annex", ( req, res, next ) => annexer( req.params.annex )( req, res, next ) );
+app.get( "/!/admin", annexer('home') );
+app.get( "/!/admin/:annex", ( req, res, next ) => annexer( req.params.annex )( req, res, next ) );
 
 // var scaffold = require('aiport-scaffold');
 // TODO: scaffold will hold current scaffold info in aiport-pile-scaffold, which is controlled by aiport-annex-scaffold
@@ -60,8 +60,8 @@ var pile = require('aiport-pile');
 app.get( "/pile/:pile", ( req, res, next ) => promiser( pile( req.params.pile ).fetch( req.query ) )( req, res, next ), sender );
 
 var package = require('aiport-package');
-app.get( "/packages/installed", promiser( Promise.resolve( package.installed() ) ), sender );
-app.get( "/packages/available", promiser( package.available() ), sender );
+app.get( "/package/installed", promiser( Promise.resolve( package.installed() ) ), sender );
+app.get( "/package/available", promiser( package.available() ), sender );
 app.post( "/package/install/:type/:name", ( req, res, next ) => promiser( package.install( req.params.type, req.params.name ) )( req, res, next ), sender );
 
 //----------------------------------------------------
