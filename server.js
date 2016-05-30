@@ -28,6 +28,9 @@ var sender = ( req, res ) =>
 var renderror = ( req, res ) => err =>
     res.render( "panel/error.html", err );
 
+// TODO: wrap html in panel
+var panel = html => html;
+
 var paneler = ( req, res ) => ( err, html ) =>
     err 
 	? renderror( req, res )( { code: 500, msg: err } )
