@@ -22,17 +22,16 @@
     "server"
   ],
   "dependencies": {
-    "aiport-annex": "latest",
-    "aiport-package": "latest",
-    "aiport-pile": "latest",
+    "aiport-annex": "*",
+    "aiport-annex-package": "*",
+    "aiport-package": "*",
+    "aiport-pile": "*",
     "consolidate": "^0.14.1",
     "express": "^4.13.4",
     "jade": "^1.11.0"
   },
   "devDependencies": {
-    "browser-sync": "^2.12.10",
     "gulp": "^3.9.1",
-    "gulp-live-server": "0.0.29",
     "gulp-nodemon": "^2.0.7"
   }
 }

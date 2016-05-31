@@ -10,7 +10,7 @@ var nodemon = require('gulp-nodemon');
 gulp.task('start', function () {
   nodemon({
     script: 'server.js'
-  , watch: './'
+  , watch: '../'
   , ext: 'js html jade'
   , env: { 'NODE_ENV': 'development' }
   });
