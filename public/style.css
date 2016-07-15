@@ -1,0 +1,30 @@
+
+/* TODO: better css engine */
+
+html, body {
+    clear: both;
+    overflow: auto;
+    height: 100%;
+    margin: 0;
+}
+
+body > aside, 
+body > main {
+    overflow: auto;
+    height: 100%;
+    box-sizing: border-box;
+}
+
+body > aside {
+    float: left;
+    width: 20%;
+    background-color: #DDD;
+    padding: 10px;
+}
+
+body > main {
+    float: left;
+    width: 80%;
+}
+
+
